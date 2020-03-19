@@ -1,8 +1,7 @@
 <!--Header-->
 <header>
 <!--Header logo + name-->
-<a href="." >
-<img src="nti-logo.png" alt="Black NTI logo" style="width:"/>
+
 
 </a>
 <h1>NTI Forum</h1>
@@ -18,4 +17,5 @@
   <li><a href="#" class="w3-bar-item w3-button">Profil</a></li>
 </ul>
 </nav>
+
 

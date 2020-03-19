@@ -1,33 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Login</title>
+<div class="row">
+		<div class="col-md-4 col-md-offset-4 well">
+			<form role="form" action="<?php $_SERVER['PHP_SELF']?>" method="post" name="signupform">
+
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Adam login</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="script/ajax.js"></script>
+
+<style>
+
+	body {
+		background-image: url("./background.jpg") !important;
+		background-size: 100% 100% !important;
+	}
+
+</style>
+
 </head>
 <body>
 
+<div class="form">
+<h1>Logga In</h1>
 
-    <h1>Logga in</h1>
+<form action="" method="post" name="login">
+<input type="text" name="username" placeholder=" E-post" required="">
+<input type="password" name="password" placeholder=" Lösenord" required="">
 
 
 
-   <form action="welcome.php" method = "post">
-      Namn: <input type = "text" name="name">
-   <p>E-mail: <input type = "mail" name="mail"><br /></p>
-   <p>Lösenord: <input type = "password" name="lösenord"><br /></p>
-   <input type = "submit">
+</form>
+<p>Är du inte än registrerad? 
+<a href="regeister.php">Registrera Här</a></p>
 
-   </form>
 
-   <?php require '../templates/footer.php';?>
-
-                 <div class="row">
-                    <p>Är du en ny användare?</p> 
-                    <a href="regeister.php">Registrera in här:</a>
-		         </div>
+<div class="form-group">
+	<br />
+	<input type="submit" name="signup" value="Logga In" class="btn btn-primary">
+    </div>
 
 </body>
 </html>
-

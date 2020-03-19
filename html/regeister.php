@@ -1,95 +1,199 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Adam registrering</title>
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-<script async="" src="https://www.google-analytics.com/analytics.js"></script><script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<title>Adam registrering</title>
 <script type="text/javascript" src="script/ajax.js"></script>
 </head>
 <body class="">
-<div class="row">
-		<div class="col-md-4 col-md-offset-4 well">
-			<form role="form" action="/demo/login-and-registration-script-with-php-mysql/register.php" method="post" name="signupform">
-				<fieldset>
-					<legend>Personliga Uppgifter</legend>
 
-					<div class="form-group">
-						<label for="name">Namn:</label>
-						<input type="text" name="name" placeholder="Ange namn" required="" value="" class="form-control">
-						<span class="text-danger"></span>
-                    </div>
+<style>
 
-                    <div class="form-group">
-						<label for="name">Efternamn:</label>
-						<input type="text" name="name" placeholder="Ange efter namn" required="" value="" class="form-control">
-						<span class="text-danger"></span>
-                    </div>
-                    
+	body {
+		background-image: url("./background.jpg") !important;
+		background-size: 100% 100% !important;
+	}
 
-					<div class="form-group">
-						<label for="name">E-post:</label>
-						<input type="text" name="email" placeholder="Skriv din E-post" required="" value="" class="form-control">
-						<span class="text-danger"></span>
-                    </div>
-                    
+</style>
 
-                    <div class="form-group">
-                        <label for="message">kommentar:</label>
-                        <textarea name="message" class="form-control" id="message"></textarea>
-                    </div>
-
-                    <div class="form-group">
-						<label for="website">Websajt:</label>
-						<input type="text" name="website" placeholder="Skriv din Websajt" required="" value="" class="form-control">
-						<span class="text-danger"></span>
-                    </div>
-
-					<div class="form-group">
-						<label for="name">Lösenord:</label>
-						<input type="password" name="password" placeholder="Lösenordet" required="" class="form-control">
-						<span class="text-danger"></span>
-                    </div>
-                 
-
-					<div class="form-group"> 
-						<label for="name">Bekräfta lösenordet:</label>
-						<input type="password" name="cpassword" placeholder="Bekräfta lösenordet" required="" class="form-control">
-						<span class="text-danger"></span>
-                    </div>
-                    
-                     <label for="gender">Kön:</label>
-               <input type="radio" name="gender" 
-                 <?php if (isset($gender) && $gender=="female") echo "checked";?>
-                 value="female">Kvinna
-             <input type="radio" name="gender"
-                <?php if (isset($gender) && $gender=="male") echo "checked";?>
-                value="male">Man
-             <input type="radio" name="gender" 
-                <?php if (isset($gender) && $gender=="other") echo "checked";?>
-                value="other">Annat<span class="error">* 
+<?php
 
 
-					<div class="form-group">
-					<br /><input type="submit" name="signup" value="Registrera dig" class="btn btn-primary">
-                    </div>
+ require '../templates/header.php';
 
-                    <div class="row">
-                    Har du redan registrerad? 
-                    <p><a href="login.php">Logga in här:</a></p>
-		</div>
-	</div>
+	// define variables and set to empty values
+	$firstnameErr = $lastnameErr = $emailErr = $genderErr = $passwordErr = $cpasswordErr = "";
+	$firstname = $lastname = $email = $gender = $comment = $password = $cpassword = "";
+	$err=false;
+
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+		if (empty($_POST["firstname"])) {
+			$firstnameErr = "Förnamn är obligatoriskt";
+			$err=true;
+		} else {
+			$firstname = test_input($_POST["firstname"]);
+			// check if name only contains letters and whitespace
+			 if (!preg_match("/^[a-zA-Z ]*$/",$firstname)) {
+				$firstnameErr = "Använd bara bokstäver och mellanslag";
+				$err=true;
+			 }
+		}
+		if (empty($_POST["lastname"])) {
+			$lastnameErr = "Efternamn är obligatoriskt";
+			$err=true;
+		} else {
+			$lastname = test_input($_POST["lastname"]);
+		}
+
+		if (empty($_POST["email"])) {
+			$emailErr = "E-postadress är obligatoriskt";
+			$err=true;
+		} else {
+			$email = test_input($_POST["email"]);
+
+			if(test_if_email_exists($email)){
+				$emailErr = "E-postadress finns redan registrerad";
+				$err=true;
+			}
+		
+		}
+		if (empty($_POST["comment"])) {
+			$comment = "";
+		} else {
+			$comment = test_input($_POST["comment"]);
+		}
+		if (empty($_POST["gender"])) {
+			$genderErr = "Val av kön är obligatoriskt";
+			$err=true;
+		} else {
+			$gender = test_input($_POST["gender"]);
+		}
+
+		//Kontroll av lösenord
+		if (empty($_POST["password"])) {
+			$passwordErr = "Lösenordet är obligatoriskt";
+			$err=true;
+		} else {
+			$password = test_input($_POST["password"]);
+		}
+		if (empty($_POST["cpassword"])) {
+			$cpasswordErr = "Lösenord bekräftelset är obligatoriskt";
+			$err=true;
+		} else {
+			$cpassword = test_input($_POST["cpassword"]);
+			//Kryptering av lösenord
+			$hashed = password_hash($cpassword, PASSWORD_DEFAULT);
+		}
+		
+		
+		echo $hashed;
+		/*
+		$db_pw = "$2y$10$6zTMfg4P5ia3.JP4ka0JN.RpD/9RJ7vcKOHYaHw6Issbu/BE6Ry7q";
+		$verified = password_verify($password, $db_pw);
+		
+		if($verified){
+			echo "Grattis, du är inloggad!";
+		} else{
+			echo "Fel lösenord, eller användarnamn.";
+		}				
+*/
+
+		echo $firstname . "<br>";
+		echo $lastname . "<br>";
+		echo $email . "<br>";
+		
+		echo $comment . "<br>";
+		echo $gender . "<br>";
+
+		if($err){
+			//Visa formulär
+			require("../templates/userdata.php");
+		}else{
+			//Spara uppgifter
+			
+			require '../Includes/Settings.php';
+
+			try {
+				$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+				// set the PDO error mode to exception
+				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+				$sql = "INSERT INTO users (name, lastname, email, password)
+				VALUES ('$firstname', '$lastname', '$email', '$hashed')";
+				// use exec() because no results are returned
+				$conn->exec($sql);
+				echo "New record created successfully";
+				}
+			catch(PDOException $e)
+				{
+				echo $sql . "<br>" . $e->getMessage();
+				}
+
+			$conn = null;
+			//Skapa sessions-variabel
+			//Gå vidare till lämplig sida alt visa inloggningsmeddelande
+			echo "Grattis!";
+			
+
+		}
+
+	} else{
+		require("../templates/userdata.php");
+	}
+
+	function test_input($data) {
+		$data = trim($data);
+		$data = stripslashes($data);
+		$data = htmlspecialchars($data);
+		return $data;
+	}
+
+	function test_if_email_exists($email):bool{
+		//Hämta hemliga värden
+		require("../Includes/Settings.php");
+		
+		//Testa om det går att ansluta till databasen
+		try {
+			//Skapa anslutningsobjekt
+			$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			
+			//Förbered SQL-kommando
+			$sql = "SELECT email FROM users WHERE email='$email'  LIMIT 1";
+			$stmt = $conn->prepare($sql);
+			//Skicka frågan till databasen
+			$stmt->execute();
+
+			// Ta emot resultatet från databasen
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+			$row1 = $stmt->fetch();
+			//Stäng anslutningen
+			$conn = null;
+			if(empty($row1)){
+				return false;
+			}
+			else{
+				return true;
+			}
+		}
+		catch(PDOException $e) {
+			//Om något i anslutningen går fel
+			echo "Error: " . $e->getMessage();
+		}
+	}
 
 
-				</fieldset>
-			</form>
-			<span class="text-success"></span>
-			<span class="text-danger"></span>
-		</div>
-	</div>
+
+?>    
 
 
+<?php require '../templates/footer.php'; ?>
 
- </body>
- </html>
+</body>
+</html>
