@@ -18,10 +18,50 @@
 
 	body {
 		background-image: url("./background.jpg") !important;
-		background-size: 100% 100% !important;
+		background-size: 100% 100% !important;	
 	}
 
 </style>
+
+<?php
+require '../templates/header.php';
+
+	// define variables and set to empty values
+	$firstnameErr = $passwordErr = "";
+	$firstname = $password = "";
+	$err=false;
+
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+		if (empty($_POST["firstname"])) {
+			$firstnameErr = "Förnamn är obligatoriskt";
+			$err=true;
+		} else {
+			$firstname = test_input($_POST["firstname"]);
+			// check if name only contains letters and whitespace
+			 if (!preg_match("/^[a-zA-Z ]*$/",$firstname)) {
+				$firstnameErr = "Använd bara bokstäver och mellanslag";
+				$err=true;
+			 }
+		}		
+
+		//Kontroll av lösenord
+		if (empty($_POST["password"])) {
+			$passwordErr = "Lösenordet är obligatoriskt";
+			$err=true;
+		} else {
+			$password = test_input($_POST["password"]);
+		}
+		if (empty($_POST["cpassword"])) {
+			$cpasswordErr = "Lösenord bekräftelset är obligatoriskt";
+			$err=true;
+		} else {
+			$cpassword = test_input($_POST["cpassword"]);
+			//Kryptering av lösenord
+			$hashed = password_hash($cpassword, PASSWORD_DEFAULT);
+		}
+		
+?>
 
 </head>
 <body>
@@ -30,7 +70,9 @@
 <h1>Logga In</h1>
 
 <form action="" method="post" name="login">
+<div class="form-group">
 <input type="text" name="username" placeholder=" E-post" required="">
+</div>
 <input type="password" name="password" placeholder=" Lösenord" required="">
 
 
