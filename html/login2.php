@@ -12,24 +12,18 @@
     if ($_SERVER["REGUEST_METHOD"] == "POST"){
 
     }else{
-    
+/*    
     echo <<<html
 
-            <form action="<?php $_SERVER
-            ["PHP_SELF"];?>">
+            <form action="<?php $_SERVER["PHP_SELF"];?>">
               <label for="user">ange ditt användere namn</label>
               <input type="text" name="user">
               <input type="submit" value="Logga in">
               </form>
 
    
-HTML;
+HTML;*/
 }
-
+?>
 </body>
 </html>
-
-
-
-?>
-
