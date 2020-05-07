@@ -58,33 +58,19 @@
                     $err=true;
                 } else {
                     $pw = test_input($_POST["pw"]);
-                }
+                }  
 
                 //Hämta lösenord från databasen
                 //Hämta inställningar
-                require("../Includes/Settings.php");
+                require("../includes/settings.php");
                 try{
-                    //Anslut till databasen. 
-                    $conn = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);
-                    // set the PDO error mode to exception
-                    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                        
-                    //Skapa SQL-kommando
-                    $sql = "SELECT password FROM users WHERE email='$email'  LIMIT 1";
-                    $stmt = $conn->prepare($sql);
-                    //Skicka frågan till databasen
-                    $stmt->execute();
-    
-                    // Ta emot resultatet från databasen
-                    $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-
-                    $result = $stmt->fetch();
-                                  
-                    //Stäng anslutningen
-                    $conn = null;
-
+                    
+                    $db_password = get_db_value("users", "password", "email", "$email");
+                    
+                     echo('lösenord ' . $db_password);
+                     
                     //Kontrollera om angivet lösenord stämmer med det i databasen
-                    $verified = password_verify($pw, $result['password']);
+                    $verified = password_verify($pw, $db_password);
 
                     if($verified){
                         echo "Grattis, du är inloggad!";
@@ -100,10 +86,10 @@
                 
                 $conn = null;
 
+  
+
             }
-            echo "<h3>Sparade uppgifter:</h3>\n";
-            echo $email . "<br>";
-            echo $pw . "<br>";
+          
     
 
 /*               //Omskapa sessions-id
@@ -120,83 +106,13 @@
            
         }else{
             //Man kommer till sidan för första gången. Visa tomt formulär.
-            //require '../templates/loginform.php';
-        }
-
-
-        function test_input($data) {
-            $data = trim($data);
-            $data = stripslashes($data);
-            $data = htmlspecialchars($data);
-            return $data;
-        }
-
-        function test_if_email_exists($email):bool{
-            //Hämta hemliga värden
-            require("../includes/settings.php");
-            
-            //Testa om det går att ansluta till databasen
-            try {
-                //Skapa anslutningsobjekt
-                $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                
-                //Förbered SQL-kommando
-                $sql = "SELECT email FROM users WHERE email='$email'  LIMIT 1";
-                $stmt = $conn->prepare($sql);
-                //Skicka frågan till databasen
-                $stmt->execute();
-
-                // Ta emot resultatet från databasen
-                $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-
-                $row1 = $stmt->fetch();
-                //Stäng anslutningen
-                $conn = null;
-
-                if(empty($row1)){
-                    return false;
-                }
-                else{
-                    return true;
-                }
-            }
-            catch(PDOException $e) {
-                //Om något i anslutningen går fel
-                echo "Error: " . $e->getMessage();
-                return false;
-            }
+            require ('../templates/loginform.php');
         }
 
     ?>    
-
     <?php require '../templates/footer.php'; ?>
 
 </body>
 </html>
 
 	
-
-<div class="form">
-<h1>Logga In</h1>
-
-<!--form action="" method="post" name="login">
-<div class="form-group">
-<input type="text" name="username" placeholder=" E-post" required="">
-</div>
-<input type="password" name="password" placeholder=" Lösenord" required="">
-
-
-
-</form-->
-<p>Är du inte än registrerad? 
-<a href="regeister.php">Registrera Här</a></p>
-
-
-<div class="form-group">
-	<br />
-	<input type="submit" name="signup" value="Logga In" class="btn btn-primary">
-    </div>
-
-</body>
-</head>

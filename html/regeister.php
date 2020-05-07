@@ -103,7 +103,6 @@
 			echo "Fel lösenord, eller användarnamn.";
 		}				
 */
-
 		echo $firstname . "<br>";
 		echo $lastname . "<br>";
 		echo $email . "<br>";
@@ -117,14 +116,14 @@
 		}else{
 			//Spara uppgifter
 			
-			require '../Includes/Settings.php';
+			require '../includes/settings.php';
 
 			try {
-				$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+				$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $db_password);
 				// set the PDO error mode to exception
 				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 				$sql = "INSERT INTO users (name, lastname, email, password)
-				VALUES ('$firstname', '$lastname', '$email', '$hashed')";
+				VALUES ('$firstname', '$lastname', '$email', '$password')";
 				// use exec() because no results are returned
 				$conn->exec($sql);
 				echo "New record created successfully";
@@ -139,56 +138,11 @@
 			//Gå vidare till lämplig sida alt visa inloggningsmeddelande
 			echo "Grattis!";
 			
-
 		}
 
 	} else{
 		require("../templates/userdata.php");
 	}
-
-	function test_input($data) {
-		$data = trim($data);
-		$data = stripslashes($data);
-		$data = htmlspecialchars($data);
-		return $data;
-	}
-
-	function test_if_email_exists($email):bool{
-		//Hämta hemliga värden
-		require("../Includes/Settings.php");
-		
-		//Testa om det går att ansluta till databasen
-		try {
-			//Skapa anslutningsobjekt
-			$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			
-			//Förbered SQL-kommando
-			$sql = "SELECT email FROM users WHERE email='$email'  LIMIT 1";
-			$stmt = $conn->prepare($sql);
-			//Skicka frågan till databasen
-			$stmt->execute();
-
-			// Ta emot resultatet från databasen
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-
-			$row1 = $stmt->fetch();
-			//Stäng anslutningen
-			$conn = null;
-			if(empty($row1)){
-				return false;
-			}
-			else{
-				return true;
-			}
-		}
-		catch(PDOException $e) {
-			//Om något i anslutningen går fel
-			echo "Error: " . $e->getMessage();
-		}
-	}
-
-
 
 ?>    
 

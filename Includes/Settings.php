@@ -6,6 +6,6 @@
 echo("Läser settings...");
 $servername = "localhost";
 $username = "phpuser";
-$password = "GkzX2VeTXhyDN9rM";
+$db_password = "GkzX2VeTXhyDN9rM";
 $dbname = "nti-blogg-db";
 

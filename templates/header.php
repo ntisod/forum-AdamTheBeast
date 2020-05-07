@@ -1,3 +1,7 @@
+<?php
+  require("../includes/nti-functions.php")
+?>
+
 <!--Header-->
 <header>
 <!--Header logo + name-->
