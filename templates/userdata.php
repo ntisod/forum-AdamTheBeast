@@ -30,7 +30,6 @@
                     <div class="form-group">
                         <label for="comment">kommentar:</label>
 						<textarea name="comment" class="form-control" id="message"></textarea>
-						
                     </div>
 
 					<div class="form-group">

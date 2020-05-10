@@ -60,6 +60,7 @@
                     $pw = test_input($_POST["pw"]);
                 }  
 
+                //TL Placera en if-sats här där du bara hämtar lösenord frn databasen ifall inget error har uppstått. Dvs if(!$err){}
                 //Hämta lösenord från databasen
                 //Hämta inställningar
                 require("../includes/settings.php");
@@ -89,10 +90,15 @@
   
 
             }
-          
-    
 
-/*               //Omskapa sessions-id
+//TL Ta bort kommentarerna från följande rader.
+/* 
+            if($err){
+                require ('../templates/loginform.php');
+            } else{
+
+
+               //Omskapa sessions-id
                 session_regenerate_id();
                 //Lägg till sessionsvariabel
                 $_SESSION['user'] = $email;
@@ -101,8 +107,9 @@
                 
                 //Visa välkomstmeddelande
                 echo "<h1>Välkommen {$email}!</h1>\n";
-                echo "<p>Du skapade kontot " . date("Y-m-d H:i:s") . "</p>";*/
+                echo "<p>Du skapade kontot " . date("Y-m-d H:i:s") . "</p>";
             
+            }*/
            
         }else{
             //Man kommer till sidan för första gången. Visa tomt formulär.

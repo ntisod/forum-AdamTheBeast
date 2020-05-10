@@ -76,12 +76,13 @@
 		}
 
 		//Kontroll av lösenord
+		//TL Du kontrollerar aldrig om lösenorden stämmer överens med varandra. gör en sådan kontroll mellan rad 90 och 92.
 		if (empty($_POST["password"])) {
 			$passwordErr = "Lösenordet är obligatoriskt";
 			$err=true;
 		} else {
 			$password = test_input($_POST["password"]);
-		}
+		} //TL Flytta den här måsvingen till rad 94.
 		if (empty($_POST["cpassword"])) {
 			$cpasswordErr = "Lösenord bekräftelset är obligatoriskt";
 			$err=true;
