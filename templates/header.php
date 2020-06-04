@@ -4,22 +4,22 @@
 
 <!--Header-->
 <header>
-<!--Header logo + name-->
 
-
-</a>
-<h1>NTI Forum</h1>
+    <div class="header">
+      <div class="inner_header">
+        <div class="logo_container">
+            <h2>NTI<span>Forum</span></h2>
+        </div>
+        <ul class="navigation">
+          <a><li>Hem</li></a>
+          <a><li>Logga in</li></a>
+          <a><li>Skapa konto</li></a>
+          <a><li>Mina inlägg</li></a>
+          <a><li>Nytt inlägg</li></a>
+          <a><li>Profil</li></a>
+          </ul>
+    </div>
 
 </header>
-<nav>
-<!--Header menu-->
-<ul class="w3-bar w3-border w3-light-grey">
-  <li><a href="#" class="w3-bar-item w3-button">Nytt inlägg</a></li>
-  <li><a href="#" class="w3-bar-item w3-button">Mina inlägg</a></li>
-  <li><a href="#" class="w3-bar-item w3-button">Följande</a></li>
-  <li><a href="login.php" class="w3-bar-item w3-button">Login</a></li>
-  <li><a href="#" class="w3-bar-item w3-button">Profil</a></li>
-</ul>
-</nav>
 
 

@@ -19,15 +19,15 @@
 	body {
 		background-image: url("./background.jpg") !important;
 		background-size: 100% 100% !important;	
-	}
-
+    }
+    
+    
 </style>
 
 </head>
 <body>
 
-    <?php require '../templates/header.php'; ?>
-
+    
     <?php
         // definiera och nollställ variabler
         $emailErr = $pwErr = "";
@@ -60,7 +60,7 @@
                     $pw = test_input($_POST["pw"]);
                 }  
 
-                //TL Placera en if-sats här där du bara hämtar lösenord frn databasen ifall inget error har uppstått. Dvs if(!$err){}
+                //TL Placera en if-sats här där du bara hämtar lösenord från databasen ifall inget error har uppstått. Dvs if(!$err){}
                 //Hämta lösenord från databasen
                 //Hämta inställningar
                 require("../includes/settings.php");
@@ -78,6 +78,10 @@
                     } else{
                         echo "Fel lösenord, eller användarnamn.";
                         $err=true;
+                    }
+
+                    if(!$err){
+                    $err = false;
                     }
                 }
                 catch(PDOException $e)

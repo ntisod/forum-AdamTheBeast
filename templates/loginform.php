@@ -11,6 +11,7 @@
         <input type="password" name="pw" placeholder=" Lösenord" required="">
 
         <br />
+        
         <input type="submit" name="signup" value="Logga In" class="btn btn-primary">
     </form>
     <p>Är du inte än registrerad? 
